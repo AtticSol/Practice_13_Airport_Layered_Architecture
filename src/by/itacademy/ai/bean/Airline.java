@@ -9,11 +9,11 @@ public class Airline {
 	private String departureDay;
 	
 	public Airline() {
-		destination = "MSQ";
-		flightNumber = 0;
-		airlineType = "";
-		departureTime = "";
-		departureDay = "";		
+		destination = "Minsk-MSQ";
+		flightNumber = 2121;
+		airlineType = "Boeing 737-800";
+		departureTime = "10:00";
+		departureDay = "Monday";		
 	}
 	
 	public Airline(String destination, int flightNumber, String aircraftType, String departureTime,
