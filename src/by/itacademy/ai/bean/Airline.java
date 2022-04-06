@@ -66,7 +66,8 @@ public class Airline {
 	}
 	
 	public String toString() {
-		return destination + " " + flightNumber + " " + airlineType + " " + departureTime + " " + departureDay;
+		return "Пункт назначения: " + destination + ", рейс номер: " + flightNumber + ", тип самолета: " 
+			+ airlineType + ", время и день вылета: " + departureTime + " " + departureDay;
 	}
 	
 	
