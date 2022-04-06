@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import by.itacademy.ai.bean.Airline;
 import by.itacademy.ai.bean.Airport;
+import by.itacademy.ai.logic.FlightLists;
 
 public class FlightListsTest {
 	@Test
