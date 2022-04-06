@@ -5,25 +5,27 @@ import java.util.Scanner;
 
 import by.itacademy.ai.bean.Airline;
 import by.itacademy.ai.bean.Airport;
-import by.itacademy.ai.list.FlightLists;
+import by.itacademy.ai.logic.FlightLists;
 import by.itacademy.ai.logic.AirportLogic;
 import by.itacademy.ai.view.AirportView;
 
 public class FlightSchedule {
 
 	public static void main(String[] args) {
+		
 		Airport airport = new Airport("Minsk-MSQ");
+		
 		FlightLists flightsLists = new FlightLists();
 		AirportView view = new AirportView();
-		AirportLogic logicAdd = new AirportLogic();
+		AirportLogic logic = new AirportLogic();
 
-		logicAdd.addAirline(airport, new Airline("Dubai-DXW", 2727, "Boeing 737-800", "05:20", "Wednesday"));
-		logicAdd.addAirline(airport, new Airline("Venice-VCE", 1515, "Airbus A321", "12:55", "Friday"));
-		logicAdd.addAirline(airport, new Airline("Oslo-TRF", 9750, "Boeing 737-800", "08:30", "Friday"));
-		logicAdd.addAirline(airport, new Airline("Vena-VIE", 1484, "Airbus A321", "10:15", "Monday"));
-		logicAdd.addAirline(airport, new Airline("Bari-BRI", 6191, "Boeing 737-800", "06:20", "Friday"));
-		logicAdd.addAirline(airport, new Airline("Dubai-DXW", 2863, "Airbus A321", "22:15", "Saturday"));
-		logicAdd.addAirline(airport, new Airline("Venice-VCE", 2185, "Airbus A321", "06:25", "Monday"));
+		logic.addAirline(airport, new Airline("Dubai", 2727, "Boeing 7370", "05:20", "Wednesday"));
+		logic.addAirline(airport, new Airline("Paris", 1515, "Airbus A321", "12:55", "Friday"));
+		logic.addAirline(airport, new Airline("Tokyo", 9750, "Boeing 7370", "08:30", "Friday"));
+		logic.addAirline(airport, new Airline("Seoul", 1484, "Airbus A321", "10:15", "Monday"));
+		logic.addAirline(airport, new Airline("Seoul", 6191, "Boeing 7370", "06:20", "Friday"));
+		logic.addAirline(airport, new Airline("Dubai", 2863, "Airbus A321", "22:15", "Saturday"));
+		logic.addAirline(airport, new Airline("Paris", 2185, "Airbus A321", "06:25", "Monday"));
 
 		menu(airport, flightsLists, view);
 	}
@@ -55,11 +57,12 @@ public class FlightSchedule {
 			case 2:
 				System.out.println("Выберите пункт назначения: ");
 				List<String> destinations = flightsLists.listOfDestinations(airport);
-				view.printStringList(destinations);
+				view.printList(destinations);
 				System.out.print(">> ");
 				String dest = scString.nextLine();
 				System.out.println("Рейсы в " + dest + ":");
-				view.printFligthsOfChoosedDestination(dest, airport);
+				List<Airline> choosedDestination = flightsLists.fligthsOfChoosedDestination(dest, airport);
+				view.printFligths(choosedDestination); 
 				System.out.println("----------------------------------------------");
 
 				while (true) {
@@ -80,7 +83,8 @@ public class FlightSchedule {
 						System.out.print("Выберите пункт назначения: >> ");
 						dest = scString.nextLine();
 						System.out.println("Рейсы в " + dest + ":");
-						view.printFligthsOfChoosedDestination(dest, airport);
+						choosedDestination = flightsLists.fligthsOfChoosedDestination(dest, airport);
+						view.printFligths(choosedDestination); 
 						System.out.println("----------------------------------------------");
 					}
 					continue;
@@ -89,11 +93,12 @@ public class FlightSchedule {
 			case 3:
 				System.out.println("Есть запланированные рейсы в следующие дни недели: ");
 				List<String> days = flightsLists.listOfDepartureDays(airport);
-				view.printStringList(days);
+				view.printList(days);
 				System.out.print("Выберите день недели: >> ");
 				String day = scString.nextLine();
 				System.out.println("Доступные рейсы в " + day + ":");
-				view.printFligthsOfChoosedDepartureDay(day, airport);
+				List<Airline> choosedDay = flightsLists.fligthsOfChoosedDepartureDay(day, airport);
+				view.printFligths(choosedDay); 
 				System.out.println("----------------------------------------------");
 
 				while (true) {
@@ -114,7 +119,8 @@ public class FlightSchedule {
 						System.out.print("Выберите день недели: >> ");
 						day = scString.nextLine();
 						System.out.println("Доступные рейсы в " + day + ":");
-						view.printFligthsOfChoosedDestination(day, airport);
+						choosedDay = flightsLists.fligthsOfChoosedDepartureDay(day, airport);
+						view.printFligths(choosedDay);
 						System.out.println("----------------------------------------------");
 					}
 					continue;
@@ -122,13 +128,14 @@ public class FlightSchedule {
 				break;
 			case 4:
 				System.out.println("Есть запланированные рейсы в следующие дни недели: ");
-				view.printStringList(flightsLists.listOfDepartureDays(airport));
+				view.printList(flightsLists.listOfDepartureDays(airport));
 				System.out.print("Выберите день недели: >> ");
 				day = scString.nextLine();
 				System.out.print("Введите время отправления (не ранее, чем) в формате 00:00: >> ");
 				String time = scString.nextLine();
 				System.out.println("В " + day + " позже " + time + " есть следующие рейсы:");
-				view.printFligthsOfChoosedDepartureTime(day, time, airport);
+				List<Airline> choosedDayAndTime = flightsLists.fligthsOfChoosedDepartureTime(day, time, airport); 
+				view.printFligths(choosedDayAndTime);
 				System.out.println("----------------------------------------------");
 
 				while (true) {
@@ -151,7 +158,8 @@ public class FlightSchedule {
 						System.out.print("Введите время отправления (не ранее, чем) в формате 00:00: >> ");
 						time = scString.nextLine();
 						System.out.println("В " + day + " позже " + time + " есть следующие рейсы:");
-						view.printFligthsOfChoosedDepartureTime(day, time, airport);
+						choosedDayAndTime = flightsLists.fligthsOfChoosedDepartureTime(day, time, airport); 
+						view.printFligths(choosedDayAndTime);
 						System.out.println("----------------------------------------------");
 					}
 					continue;
